@@ -1,0 +1,68 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+//C语言是一门结构化的程序语言
+//1.顺序结构 2.选择结构 3.循环结构
+//分支语句：if ，switch
+#include <stdio.h>
+
+//int main() {//输出1-100之间的奇偶数
+//	int num = 1;
+//	while (num<101)
+//	{
+//		if (num % 2 == 1) {
+//			printf("%d", num);
+//			printf("是奇数\n");
+//		}
+//		else {
+//			printf("%d", num);
+//			printf("是偶数\n");
+//		}
+//		num++;
+//	}
+//}
+
+//int main() {//判断一个数是否为奇数
+//	int num = 0;
+//	printf("请输入一个要判断的数：");
+//	scanf("%d\n", &num);
+//	if (num%2==1)
+//	{
+//		printf("奇数");
+//	}
+//	else
+//	{
+//		printf("偶数");
+//	}
+//}
+
+//int main() {//小细节2，一个等于是赋值操作，不是判断操作
+//	int num = 3;
+//	if (4 == num) {//进行判断操作优化的编写方式是把数字写在前,变量写在后，
+//		printf("%d\n", num);//结果为4
+//	}
+//}
+
+//int main() {//一个小细节，else会自动寻找离他最近的,未匹配的一个if匹配
+//	int a = 0;
+//	int b = 2;
+//	if (a == 1)
+//		if (a == 2)
+//			printf("a");//最后输出为空，因为else属于第二个if 。第一个if判断后就跳过第二个if和else了
+//	else//如果想要匹配，可以加上括号
+//			printf("b");
+//	return 0;
+//}
+
+//int main() {
+//	int a = 0;
+//	//;//是一条语句，是一条空语句
+//	printf("请输入你的年龄：");
+//	scanf("%d", &a);
+//	if (a<18)
+//		printf("未成年");
+//	else if (a>18&&a<=28)
+//			printf("青年");
+//		else
+//			printf("中年");
+//	return 0;
+//}
