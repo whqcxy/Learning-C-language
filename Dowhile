@@ -1,0 +1,13 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <stdio.h>
+//dowhile循环，至少循环一次
+//int main() {
+//	int i = 0;
+//	do
+//	{
+//		printf("%d", i);
+//		i++;
+//	} while (i<10);
+//	return 0;
+//}
