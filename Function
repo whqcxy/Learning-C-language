@@ -1,0 +1,348 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <stdio.h>
+#include <math.h>
+
+////对比两种方法，为什么第一种失败呢
+//void Swap1(int x, int y) {//没有返回值，虽然实参传递进函数但是没有传递出函数，函数结束时，x,y的值也销毁了
+////传值调用，这种情况下实参与形参没有必然联系，实参只是形参的一份copy
+//	int z = 0;
+//	z = x;
+//	x = y;
+//	y = z;
+//}
+////传址调用，实参与形参有联系，调用的是地址，改变的内容是实参本身
+//void Swap2(int* x, int* y) {//函数定义的xy是形参，只有在调用函数时才开辟空间，调用完就销毁
+//	int z = 0;
+//	z = *x;
+//	*x = *y;
+//	*y = z;
+//}
+//int main() {
+//	int a = 10;
+//	int b = 20;
+// 	Swap1(a, b);//调用参数，这个a,b是实参，可以是变量也可以是常量，表达式，函数，
+//	//无论是何种类，进行函数调用时必须有确定的值，以便把这些值传达给形参
+//    printf("第一次交换 %d %d \n", a, b);
+//	Swap2(&a, &b);//&a,&b也是实参
+//	printf("第二次交换 %d %d \n", a, b);
+//	return 0;
+//}
+////在需要函数内可以操作函数外的数据时用传址调用
+
+
+////写一个函数，可以判断一个数是不是素数
+//int is_prime(int n) {
+//	int j = 0;
+//	if (n % 2 == 1) {
+//		for (j = 2; j < n; j++)
+//		{
+//			if (n % j == 0)
+//				return 0;
+//		}return 1;
+//	}else
+//	{
+//		return 0;
+//	}
+//}
+
+//void num(int x) {//这个函数功能不够单一，不建议这样写
+//	if (x % 2 == 1){
+//		int a = 0;
+//		for (a=2;a<x;a++)
+//		{
+//			if (x % a == 0)
+//			{
+//				printf("%d 这个数不是素数",x);
+//				break;
+//			}
+//		}if(x == a)
+//			{
+//				printf("这个数是素数 %d", x);
+//			}
+//	}else
+//	{
+//		printf("%d 这个数不是素数",x);
+//	}
+//}
+
+//int main() {
+//	int i = 0;
+//	printf("请输入一个数判断是不是素数：");
+//	scanf("%d", &i);
+//	if (is_prime(i) == 1) {
+//		printf("%d 是素数",i);
+//	}else {
+//		printf("%d不是素数",i);
+//	}
+//	return 0;
+//}
+
+//写一个函数判断那年是闰年
+//int year(int y) {
+//	return ((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0));
+//}
+//
+//int main() {
+//	int i = 0;
+//	printf("请输入一个要判断的年份：");
+//	scanf("%d", &i);
+//	if (year(i) == 1) {
+//		printf("%d年是闰年", i);
+//	}
+//	else
+//	{
+//		printf("%d年不是闰年", i);
+//	}
+//}
+
+//int binary_search(int x[],int y,int z) {//所以x[]实际上是一个指针，不是一个数组
+//	int left = 0;
+//	int right = z-1;
+//	while (left<=right){
+//		int mid = (left + right) / 2;
+//		if (x[mid] > y) {
+//			right = mid - 1;
+//		}else if(x[mid]<y){
+//			left = mid + 1;
+//		}else{
+//			return mid;
+//		}
+//	}
+//		return -1;
+//}
+//
+////用函数实现二分查找
+//int main() {
+//	int arr[10] = {1,2,3,4,5,6,7,8,9,10};
+//	int key = 11;
+//	int sz = sizeof(arr) / sizeof(arr[1]);//sz不能放在函数内
+//	//找到了就返回找到位置的下标
+//	//找不到就返回-1
+//	//因为数组arr传参，实际传递的不是数组本身
+//	//仅仅传递了数组首元素的地址
+//	int ret = binary_search(arr,key,sz);
+//	if (-1==ret)
+//	{
+//		printf("找不到这个数");
+//	}
+//	else {
+//		printf("这个数的下标是 %d", ret);
+//	}
+//	return 0;
+//}
+
+//写一个函数，每调用一次这个函数，就会将num值加1
+//void Add(int* p) {
+//	(*p)++;
+//}
+////想要函数内部改变函数外部的值就必须使用传址调用，使用指针将地址传过去
+//int main() {
+//	int num = 0;
+//	Add(&num);
+//	printf("%d\n", num);
+//	Add(&num);
+//	printf("%d\n", num);
+//	Add(&num);
+//	printf("%d\n", num);
+//	Add(&num);
+//	printf("%d\n", num);
+//	Add(&num);
+//	printf("%d\n", num);
+//	return 0;
+//}
+
+//函数的嵌套调用--一个函数可以调用另一个函数
+//但函数不能进行嵌套定义
+//int test1() {
+//	test2();
+//}
+//int test2() {
+//	test3();
+//}
+//int test3() {
+//	printf("hh");
+//}
+//
+//int main() {
+//	test1();
+//}
+
+//链式访问--一个函数的结果可以作为另一个函数的参数
+//#include <string.h>
+//int main() {
+//	//int len = strlen("abc");
+//	//printf("%d\n", len);
+//	//链式访问
+//	printf("%d\n", strlen("abc"));//strlen函数计算字符个数
+//
+//	char arr1[20] = { 0 };
+//	char arr2[] = "bit";
+//	strcpy(arr1, arr2);//stcpy(a,b)把数组b 的内容copy给 数组a
+//	printf("%s\n", arr1);
+//
+//	printf("%d", printf("%d", printf("%d", 43)));//输出结果是4321，因为printf函数实际上返回的打印在屏幕上的是字符的个数
+//	return 0;
+//}
+
+//int main() {
+//	int a = 10;
+//	int b = 20;
+//	int Add(int, int);//函数的声明
+//	int c = Add(a, b);//计算机编译程序是从上到下的执行的，当执行到这里他没有发现函数Add,就会报错，需要提前声明一下
+//	printf("%d\n", c);
+//	return 0;
+//}
+////函数的定义
+//int Add(int x,int y) {
+//	return x + y;
+//}
+
+//函数的递归——就是函数直接或者间接调用自己的方法
+//通常是把一个大型复杂的问题层层转化为一个与原问题相似的规模较小的问题来求解
+//主要的思考方式是--把大事化小
+//int main() {
+//	printf("hehe\n");
+//	main();
+//	return 0;
+//}
+
+//接收一个整型值，按照顺序打印他的每一位
+//void print(unsigned int n) {
+//	if (n>9)
+//	{
+//		print(n / 10);
+//	}
+//	printf("%d ", n % 10);
+//}
+//int main() {
+//	unsigned int num = 0;
+//	scanf("%u", &num);
+//	print(num);
+//	return 0;
+//}
+
+//递归的两个必要条件
+//存在限制条件，满足这个限制条件时，递归不再进行
+//每次递归调用后越来越接近这个限制条件
+
+//符合这两个条件也不一定对
+//void test(int n) {
+//	if (n < 10000) {//运行失败，报错Stack overflow （栈溢出）
+//		test(n + 1);//栈溢出：因此每一个函数调用都要在栈区分配内存空间(栈帧空间）
+//		//如果调用函数次数太多，递归层次太深，栈空间就会被分配完，此时就会出现栈溢出
+//	}//内存空间分为栈区，堆区，静态区。局部变量，函数形参放在栈区，堆区存放动态内存分配的（malloc/free,calloc,realloc)
+//	//静态区放全局变量，静态变量，
+//int main() {
+//	test(1);
+//	return 0;
+//}
+
+//所以写递归代码的时候：不能死递归，要有跳出条件，每次递归逼近跳出条件
+//递归层次不能太深
+
+//实现一个函数模拟strlen函数功能
+//int my_strlen(char* str) {
+//	//用递归的方式求
+//	if (*str != '\0') {
+//		//return 1 + my_strlen(str+1);//此处str是地址，*str是指针指向的内容
+//		return 1 + my_strlen(++str);//错误的写法，str+1是传进去后加1，str值本身不改变，
+////str++是加了后再传值，str值本身改变，++str写法虽然结果正确但不建议，因为str值已经改变，和原来不一样
+//	}
+//	else{
+//		return 0;
+//	}
+//	//int count = 0;
+//	//while (*str != '\0') {
+//	//	count++;
+//	//	str++;
+//	//}
+//	//return count;
+//}
+//int main() {
+//	char arr[] = "bit";
+//	printf("%d\n", my_strlen(arr));
+//	return 0;
+//}
+
+//递归与迭代
+
+//int Fac(int n) {//递归方式
+//	if (n <= 1) {
+//		return 1;
+//	}
+//	else
+//	{
+//		return n * Fac(n - 1);
+//	}
+//}
+//int main() {
+//	int n = 0;
+//	int i = 0;
+//	int ret = 1;
+//	scanf("%d", &n);
+//	ret = Fac(n);
+//	printf("%d", ret);
+//	//for ( i = 0; i <= n; i++)
+//	//{//迭代方式（循环就是一种迭代）
+//	//	ret = ret * i;
+//	//}printf("%d\n", ret);
+//	return 0;
+//}
+
+//求第n个斐波那契数
+//int Fib(n) {
+//	int a = 1;
+//	int b = 1;
+//	int c = 1;
+//		while (n > 2) {//速度非常快
+//			c = a + b;
+//			a = b;
+//			b = c;
+//			n--;
+//		}return c;
+//	/*if (n <= 2)
+//		return 1;
+//	else
+//		return Fib(n - 1) + Fib(n - 2);*///使用递归效率太低，求50以上的需要时间5分钟以上
+//}
+//int main() {
+//	int a = 0;
+//	scanf("%d", &a);
+//	int b = 0;
+//	b = Fib(a);
+//	printf("%d\n", b);//结果是错误的，因为栈溢出
+//}
+
+
+//青蛙跳台阶，一次跳1||2阶，n个台阶有多少种跳法
+//int count = 0;//创建全局变量来统计个跳法个数
+//void istion(int x) {
+//	//从0加到n和从n减到0没啥区别
+//	if (x == 0)//当台阶数为0是跳法个数加1
+//		count++;
+//	else if (x < 0);
+//	else{
+//		istion(x - 1);
+//		istion(x - 2);
+//	}
+//}
+//int main() {
+//	int n = 0;
+//	scanf("%d", &n);
+//	istion(n);
+//	printf("%d", count);
+//	return 0;
+//}
+//int fun(int n) {
+//	if (n > 2) {
+//		return fun(n - 1) + fun(n - 2);
+//	}return n;
+//}
+//int main() {
+//	int n = 0;
+//	scanf("%d", &n);
+//	int num = fun(n);
+//	printf("%d", num);
+//	return 0;
+//}
